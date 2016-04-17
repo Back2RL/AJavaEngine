@@ -13,7 +13,8 @@ public class MainComponent {
     private Game game;
 
     public MainComponent() {
-
+        System.out.println(RenderUtil.getOpenGLVersion());
+        RenderUtil.initGraphics();
         bIsRunning = false;
         game = new Game();
     }
@@ -60,10 +61,11 @@ public class MainComponent {
                 }
 
                 Time.setDelta(frameTime);
-                Input.update();
+
 
                 game.input();
                 game.update();
+                Input.Update();
 
                 if (frameCounter >= Time.SECOND) {
                     System.out.println(frames);
@@ -89,6 +91,8 @@ public class MainComponent {
     }
 
     private void render() {
+
+        RenderUtil.clearScreen();
         game.render();
         Window.render();
     }
