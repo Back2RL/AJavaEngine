@@ -13,22 +13,40 @@ public class Quaternion {
         this.w = w;
     }
 
+    public Quaternion(Vector3f v, float w) {
+        this.x = v.getX();
+        this.y = v.getY();
+        this.z = v.getY();
+        this.w = w;
+    }
+
     public float length() {
         return (float) Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     public Quaternion normalize() {
         float len = length();
-        x /= len;
-        y /= len;
-        z /= len;
-        w /= len;
-        return this;
+        return new Quaternion(getVector().divide(new Vector3f(len)),w/len);
     }
 
     public Quaternion conjugate() {
+        return new Quaternion(getVector().negate(), w);
+    }
 
-        return new Quaternion(-x, -y, -z, w);
+    public Vector3f getVector() {
+        return new Vector3f(x, y, z);
+    }
+
+    public Quaternion add(Quaternion r) {
+        float w_ = w + r.getW();
+        Vector3f v = getVector().add(r.getVector());
+        return new Quaternion(v, w_);
+    }
+
+    public Quaternion multiply(Quaternion r) {
+        float w_ = w * r.getW() - getVector().dotProduct(r.getVector());
+        Vector3f v = getVector().crossProduct(r.getVector()).add(r.getVector().multiply(new Vector3f(w))).add(getVector().multiply(new Vector3f(r.getW())));
+        return new Quaternion(v, w_);
     }
 
     public Quaternion mul(Quaternion r) {

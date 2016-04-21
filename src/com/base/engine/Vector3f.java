@@ -24,6 +24,11 @@ public class Vector3f {
         return x * b.getX() + y * b.getY() + z * b.getZ();
     }
 
+    public Vector3f(float n){
+        x = n;
+        y = n;
+        z = n;
+    }
     public Vector3f normalize() {
         float length = length();
         if (length == 0) {
